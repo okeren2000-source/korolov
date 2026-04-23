@@ -1,7 +1,7 @@
-const ZAPIER_WEBHOOK = 'https://hooks.zapier.com/hooks/catch/1070512/orsvzq8/';
+const ZAPIER_WEBHOOK = 'https://hooks.zapier.com/hooks/catch/1070512/bd390qk/';
 
 const ALLOWED_ORIGINS = [
-  'https://mediclinic.lasertips.co.il',
+  'https://korolov.lasertips.co.il',
   'https://lp.lasertips.co.il',
 ];
 
