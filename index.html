@@ -13,6 +13,7 @@
   <meta property="og:description" content="">
   <meta name="twitter:card" content="summary">
   <meta name="referrer" content="strict-origin-when-cross-origin">
+  <script src="https://www.google.com/recaptcha/api.js?render=6Lebb8YsAAAAAAI0zo5001-mdj98WIbHDaVQ6TgH"></script>
   <title>ד"ר קורולוב - השתלת שיניים ביום אחד</title>
 
   <!-- Google Fonts -->
@@ -1172,6 +1173,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script>
 (function() {
   var WEBHOOK_URL = '/api/submit';
+  var RECAPTCHA_SITE_KEY = '6Lebb8YsAAAAAAI0zo5001-mdj98WIbHDaVQ6TgH';
 
   function getUrlVar(name) {
     return new URLSearchParams(window.location.search).get(name) || "";
@@ -1230,6 +1232,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         btnFinal.disabled = true;
         btnFinal.innerText = "שולח...";
 
+        var recaptchaToken = "";
+        try {
+          recaptchaToken = await grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'submit' });
+        } catch (err) {
+          btnFinal.disabled = false;
+          btnFinal.innerText = "שלח בקשה לייעוץ";
+          errorDiv.innerText = "אימות נכשל, נסה שוב";
+          errorDiv.style.display = 'block';
+          return;
+        }
+
         var userIP = "";
         try {
           var response = await fetch('https://api.ipify.org?format=json');
@@ -1255,7 +1268,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           campaign: container.querySelector('.kl-utm-camp').value || getUrlVar('utm_campaign'),
           source: container.querySelector('.kl-utm-src').value || getUrlVar('utm_source'),
           gclid: container.querySelector('.kl-gclid-val').value || getUrlVar('gclid'),
-          page_url: window.location.href
+          page_url: window.location.href,
+          recaptcha_token: recaptchaToken
         };
 
         fetch(WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
