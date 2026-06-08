@@ -1281,7 +1281,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             form.style.display = 'none';
             container.querySelector('.kl-thanks-msg').style.display = 'block';
             if (typeof fbq === 'function') {
-              fbq('track', 'Lead', {}, { eventID: eventID });
+              fbq('track', 'CompleteRegistration', {}, { eventID: eventID });
             }
           });
       };
